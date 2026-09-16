@@ -2,6 +2,7 @@ package org.cct;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class FoodItem {
 /***********************************************************************************************/
@@ -56,8 +57,8 @@ public class FoodItem {
     public String toString(){
         return    getName() + " - "
                 + getWeightInGrams() + "g" + " - "
-                + "Best before: " + getBestBeforeDate() + " - "
-                + "Time placed: "  + getTimeBoxPlaced();
+                + "Best Before: " + getBestBeforeDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + " - "
+                + "Time Placed: "  + getTimeBoxPlaced().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
     }
 
 }
