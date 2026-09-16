@@ -46,5 +46,18 @@ public class FoodItem {
     public LocalDateTime getTimeBoxPlaced() {
         return timeBoxPlaced;
     }
+/***********************************************************************************************/
+    // The toString() method is used here to format the information
+    // contained in the class attributes. This way, whenever I make a change here,
+    // the modification will appear wherever the object is called.
+    // Every class in Java inherits from Object, which already has a default toString().
+    // When Java needs to display an object as text, it automatically calls toString().
+    @Override
+    public String toString(){
+        return    getName() + " - "
+                + getWeightInGrams() + "g" + " - "
+                + "Best before: " + getBestBeforeDate() + " - "
+                + "Time placed: "  + getTimeBoxPlaced();
+    }
 
 }
