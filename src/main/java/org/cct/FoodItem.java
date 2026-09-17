@@ -14,7 +14,7 @@ public class FoodItem {
     private LocalDateTime timeBoxPlaced;
 /***********************************************************************************************/
     // This is a CONSTRUCTOR. It executes when a new object is created with new.
-    // This constructor receives external parameters for three class attributes; however,
+    // This constructor receives external parameters for three class attributes. However,
     // timeBoxPlaced receives the system time directly at the moment the object is created.
     // The creation time serves as the storage time because the object is saved
     // immediately after being created.
@@ -53,6 +53,8 @@ public class FoodItem {
     // the modification will appear wherever the object is called.
     // Every class in Java inherits from Object, which already has a default toString().
     // When Java needs to display an object as text, it automatically calls toString().
+    // @Override is an annotation that tells the compiler the method overrides an inherited method.
+    // If the signature does not match, the compiler reports an error.
     @Override
     public String toString(){
         return    getName() + " - "
