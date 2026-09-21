@@ -38,6 +38,24 @@ public class StackStorage {
         return myFood;
     }
 
+    public FoodItem peek(){
+        if (isEmpty()){
+            System.out.println("Storage is Empty!");
+            return null;
+        }
+        return foodItems[top];
+    }
+
+    public void display(){
+        if(isEmpty()){
+            System.out.println("Storage is Empty!!");
+            return;
+        }
+        for(int i = top; i > -1; i --){
+            System.out.println("Box - "+foodItems[i]);
+        }
+    }
+
     public boolean isFull(){
         return top == capacity -1;
     }

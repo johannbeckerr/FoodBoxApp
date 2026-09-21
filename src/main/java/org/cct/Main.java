@@ -29,8 +29,12 @@ public class Main {
         System.out.println(pasta);
         System.out.println(oats);
 
-        FoodItem removed = stackStorage.pop();
-        System.out.println("Removed: " + removed);
+        stackStorage.display();
+        stackStorage.pop();
+        stackStorage.display();
+
+        //FoodItem removed = stackStorage.pop();
+        //System.out.println("Removed: " + removed);
 
     }
 
