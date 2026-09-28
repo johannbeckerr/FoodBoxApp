@@ -57,20 +57,20 @@ public class StackStorage {
     }
 
 
-    public void search(String nameFoodSearch){
+    public FoodItem search(String nameFoodSearch){
         if(isEmpty()){
             System.out.println("Storage is Empty!!");
-            return;
+            return null;
         }
 
         for(int i = top; i > -1; i --){
             String nameFoodStorage = foodItems[i].getName();
             if (nameFoodSearch.equalsIgnoreCase(nameFoodStorage)){
-                System.out.println("Found: "+foodItems[i]);
-                return;
+                return foodItems[i];
             }
         }
         System.out.println("Food not found");
+        return null;
     }
 
 

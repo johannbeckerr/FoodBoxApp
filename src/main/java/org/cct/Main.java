@@ -22,11 +22,10 @@ public class Main {
         System.out.println(oats);
 
 
-
-        stackStorage.search("pasta");
-
-        //FoodItem removed = stackStorage.pop();
-        //System.out.println("Removed: " + removed);
+        FoodItem foodSearch = stackStorage.search("pasta");
+        if(foodSearch != null){
+            System.out.println("Food Found: "+foodSearch);
+        }
 
     }
 
