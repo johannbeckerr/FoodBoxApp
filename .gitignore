@@ -34,3 +34,6 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+### Personal study material (not part of the submission) ###
+lab/
