@@ -27,6 +27,21 @@ public class QueueStorage {
         count++;
     }
 
+    // Here, we always remove the first box that arrived the oldest one.
+    // Setting it to null removes the box from the array and the garbage collector clears it from memory.
+    // Without null, the array would retain a "ghost" box.
+    public FoodItem dequeue(){
+        if(isEmpty()){
+            System.out.println("Queue is Empty!");
+            return null;
+        }
+        FoodItem myFood = foodItems[front];
+        foodItems[front] = null;
+        front = (front + 1) % capacity;
+        count--;
+        return myFood;
+    }
+
     // The front is one position after the rear in both the full and empty queue.
     // That is why we use count, which stores the exact number of items.
     public boolean isFull(){
