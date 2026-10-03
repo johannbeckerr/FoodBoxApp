@@ -14,13 +14,24 @@ public class QueueStorage {
     private int front = 0;
     private int count = 0;
     private int rear = -1;
+/***********************************************************************************************/
+    // Here is the method to place a box with items into the queue and
+    // when the rear passes the last position, the % operation wraps it back to 0.
+    public void enqueue(FoodItem foodItem){
+        if(isFull()){
+            System.out.println("Queue is Full!");
+            return;
+        }
+        rear = (rear + 1) % capacity;
+        foodItems[rear] = foodItem;
+        count++;
+    }
 
-    // Nao conseguimos utilizar o front e o rear para verificar se a fila circular esta
-    // cheia ou vazia. Precisamos de um count.
+    // The front is one position after the rear in both the full and empty queue.
+    // That is why we use count, which stores the exact number of items.
     public boolean isFull(){
         return count == capacity;
     }
-
     public boolean isEmpty(){
         return count == 0;
     }
