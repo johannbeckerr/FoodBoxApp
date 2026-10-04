@@ -44,6 +44,7 @@ public class Main {
         System.out.println("Removed: " + queueStorage.dequeue());  // esperado: Box 1
         queueStorage.enqueue(box9);
 
+        queueStorage.display();
 
         for (int i = 1; i <= 9; i++) {
             System.out.println("Removed: " + queueStorage.dequeue());
