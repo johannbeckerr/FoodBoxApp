@@ -42,6 +42,16 @@ public class QueueStorage {
         return myFood;
     }
 
+    // Here we check which item is next to be removed. The difference compared to dequeue is that
+    // here we only look at the item and do not modify anything.
+    public FoodItem peek(){
+        if(isEmpty()){
+            System.out.println("Queue is Empty!");
+            return null;
+        }
+        return foodItems[front];
+    }
+
     // The front is one position after the rear in both the full and empty queue.
     // That is why we use count, which stores the exact number of items.
     public boolean isFull(){
