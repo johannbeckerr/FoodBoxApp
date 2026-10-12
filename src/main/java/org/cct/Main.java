@@ -1,59 +1,46 @@
 package org.cct;
 
-import java.time.LocalDate;
+import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        /*
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Chef, escolha uma opcao: 1-Stack 2-Queue");
+        int mode = scanner.nextInt();
+
         StackStorage stackStorage = new StackStorage();
-
-        FoodItem rice = new FoodItem("Rice", 1000, LocalDate.of(2027, 1, 01));
-        stackStorage.push(rice);
-
-        FoodItem pasta = new FoodItem("Pasta", 1000, LocalDate.of(2027, 1, 01));
-        stackStorage.push(pasta);
-
-        FoodItem oats = new FoodItem("Oats", 1000, LocalDate.of(2027, 1, 01));
-        stackStorage.push(oats);
-
-        System.out.println(rice);
-        System.out.println(pasta);
-        System.out.println(oats);
-
-
-        FoodItem foodSearch = stackStorage.search("pasta");®
-        if(foodSearch != null){
-            System.out.println("Food Found: "+foodSearch);
-        }
-        */
-
-
-        /****TEST TEST TEST ****/
         QueueStorage queueStorage = new QueueStorage();
 
-        for (int i = 1; i <= 8; i++) {
-            FoodItem box = new FoodItem("Box" + i, 1000, LocalDate.of(2026, 12, 25));
-            queueStorage.enqueue(box);
+        int choose;
+        do{
+            System.out.println("1-add, 2-peek, 3-display, 4-search, 5-remove, 6-exit");
+            choose = scanner.nextInt();
+            switch (choose){
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+                case 6:
+                    System.out.println("Tchau Chefe!");
+                    break;
+                default:
+                    System.out.println("Invalid option, try again");
+                    break;
+            }
+
         }
+        while(choose != 6);
 
-       /* FoodItem box9 = new FoodItem("Box 9", 1000, LocalDate.of(2026, 12, 25));
-        queueStorage.enqueue(box9);*/
-
-        /*System.out.println("Removed: " + queueStorage.dequeue());  // esperado: Box 1
-        queueStorage.enqueue(box9);*/
-
-        //queueStorage.display();
-        FoodItem www = queueStorage.search("box96");
-        if(www != null){
-            System.out.println("Food Found: "+www);
-        }
-
-        /*for (int i = 1; i <= 9; i++) {
-            System.out.println("Removed: " + queueStorage.dequeue());
-        }*/
-        /****TEST TEST TEST ****/
     }
 
 }
+
+
