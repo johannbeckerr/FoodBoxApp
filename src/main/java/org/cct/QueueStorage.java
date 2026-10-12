@@ -67,6 +67,25 @@ public class QueueStorage {
         }
     }
 /***********************************************************************************************/
+    //This search looks for an item starting at the front and moving to the rear, using the % operator
+    //to continue advancing from position to position if the array has wrapped around.
+    // Returns the item if found, or null if it is not in the queue.
+    public FoodItem search(String nameFoodSearch){
+        if(isEmpty()){
+            System.out.println("Storage is Empty!!");
+            return null;
+        }
+        for(int i=0; i<count; i++){
+            int index = (front + i) % capacity;
+            String nameFoodStorage = foodItems[index].getName();
+            if(nameFoodSearch.equalsIgnoreCase(nameFoodStorage)){
+                return foodItems[index];
+            }
+        }
+        System.out.println("Food in QueueStorage not found");
+        return null;
+    }
+/***********************************************************************************************/
     // The front is one position after the rear in both the full and empty queue.
     // That is why we use count, which stores the exact number of items.
     public boolean isFull(){

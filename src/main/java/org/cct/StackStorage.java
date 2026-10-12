@@ -75,7 +75,7 @@ public class StackStorage {
                 return foodItems[i];
             }
         }
-        System.out.println("Food not found");
+        System.out.println("Food in StackStorage not found");
         return null;
     }
 /***********************************************************************************************/
