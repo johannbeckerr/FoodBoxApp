@@ -1,6 +1,8 @@
 package org.cct;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
+import java.time.LocalDate;
 
 public class Main {
 
@@ -19,10 +21,34 @@ public class Main {
             choose = scanner.nextInt();
             switch (choose){
                 case 1:
+                    System.out.println("Enter food name: ");
+                        String name = scanner.next();
+                    System.out.println("Enter food weight: ");
+                        int weightInGrams = scanner.nextInt();
+                    System.out.println("Enter date: ");
+                        String date = scanner.next();
+                        LocalDate bestBeforeDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                        FoodItem foodItem = new FoodItem(name, weightInGrams,bestBeforeDate);
+
+                        if(mode == 1){      //STACK
+                            stackStorage.push(foodItem);
+                        }
+                        else{               //QUEUE
+                            queueStorage.enqueue(foodItem);
+                        }
+
+
+
                     break;
                 case 2:
                     break;
                 case 3:
+                    if(mode ==1){
+                        stackStorage.display();
+                    }
+                    else{
+                        queueStorage.display();
+                    }
                     break;
                 case 4:
                     break;
@@ -40,7 +66,6 @@ public class Main {
         while(choose != 6);
 
     }
-
 }
 
 
