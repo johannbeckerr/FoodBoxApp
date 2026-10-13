@@ -16,37 +16,45 @@ public class Main {
         QueueStorage queueStorage = new QueueStorage();
 
         int choose;
-        do{
+        do {
             System.out.println("1-add, 2-peek, 3-display, 4-search, 5-remove, 6-exit");
             choose = scanner.nextInt();
-            switch (choose){
+            switch (choose) {
                 case 1:
                     System.out.println("Enter food name: ");
-                        String name = scanner.next();
+                    String name = scanner.next();
                     System.out.println("Enter food weight: ");
-                        int weightInGrams = scanner.nextInt();
+                    int weightInGrams = scanner.nextInt();
                     System.out.println("Enter date: ");
-                        String date = scanner.next();
-                        LocalDate bestBeforeDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-                        FoodItem foodItem = new FoodItem(name, weightInGrams,bestBeforeDate);
+                    String date = scanner.next();
+                    LocalDate bestBeforeDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                    FoodItem foodItem = new FoodItem(name, weightInGrams, bestBeforeDate);
 
-                        if(mode == 1){      //STACK
-                            stackStorage.push(foodItem);
-                        }
-                        else{               //QUEUE
-                            queueStorage.enqueue(foodItem);
-                        }
-
+                    if (mode == 1) {      //STACK
+                        stackStorage.push(foodItem);
+                    } else {               //QUEUE
+                        queueStorage.enqueue(foodItem);
+                    }
 
 
                     break;
                 case 2:
+                    if (mode == 1) {      //STACK
+                        FoodItem foodPeek = stackStorage.peek();
+                        if(foodPeek != null){
+                            System.out.println(foodPeek);
+                        }
+                    } else {               //QUEUE
+                        FoodItem foodPeek = queueStorage.peek();
+                        if(foodPeek != null){
+                            System.out.println(foodPeek);
+                        }
+                    }
                     break;
                 case 3:
-                    if(mode ==1){
+                    if (mode == 1) {
                         stackStorage.display();
-                    }
-                    else{
+                    } else {
                         queueStorage.display();
                     }
                     break;
@@ -63,7 +71,7 @@ public class Main {
             }
 
         }
-        while(choose != 6);
+        while (choose != 6);
 
     }
 }
