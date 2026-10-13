@@ -41,26 +41,37 @@ public class Main {
                 case 2:
                     if (mode == 1) {      //STACK
                         FoodItem foodPeek = stackStorage.peek();
-                        if(foodPeek != null){
-                            System.out.println(foodPeek);
+                        if (foodPeek != null) {
+                            System.out.println("Next food: " + foodPeek);
                         }
                     } else {               //QUEUE
                         FoodItem foodPeek = queueStorage.peek();
-                        if(foodPeek != null){
-                            System.out.println(foodPeek);
+                        if (foodPeek != null) {
+                            System.out.println("Next food: " + foodPeek);
                         }
                     }
                     break;
                 case 3:
-                    if (mode == 1) {
+                    if (mode == 1) {       //STACK
                         stackStorage.display();
-                    } else {
+                    } else {              //QUEUE
                         queueStorage.display();
                     }
                     break;
                 case 4:
                     break;
                 case 5:
+                    if (mode == 1) {      //STACK
+                        FoodItem foodPop = stackStorage.pop();
+                        if (foodPop != null) {
+                            System.out.println("Removed food: " + foodPop);
+                        }
+                    } else {
+                        FoodItem foodDequeue = queueStorage.dequeue();
+                        if (foodDequeue != null) {
+                            System.out.println("Removed food: " + foodDequeue);
+                        }
+                    }
                     break;
                 case 6:
                     System.out.println("Tchau Chefe!");
