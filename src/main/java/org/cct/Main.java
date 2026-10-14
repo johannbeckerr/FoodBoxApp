@@ -9,8 +9,23 @@ public class Main {
     public static void main(String[] args) {
 /***********************************************************************************************/
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Chef, escolha uma opcao: 1-Stack 2-Queue");
-        int mode = scanner.nextInt();
+        int mode = 0;
+        // Repeat until the mode equals 1 or 2.
+        do{
+            try{
+                System.out.println("1-Stack 2-Queue");
+                mode = scanner.nextInt();
+                if(mode != 1 && mode != 2){
+                    System.out.println("Only options 1 and 2, please.");
+                }
+            }
+            catch(InputMismatchException e){
+                System.out.println("Only options 1 and 2, please.");
+                scanner.nextLine();
+            }
+        }
+        while(mode != 1 && mode != 2);
+
 /***********************************************************************************************/
         // Both structures are created before the loop, within the main block,
         // so that they exist throughout the main function.
