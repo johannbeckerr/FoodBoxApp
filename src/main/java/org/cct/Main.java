@@ -5,86 +5,136 @@ import java.util.Scanner;
 import java.time.LocalDate;
 
 public class Main {
-
     public static void main(String[] args) {
-
+/***********************************************************************************************/
         Scanner scanner = new Scanner(System.in);
         System.out.println("Chef, escolha uma opcao: 1-Stack 2-Queue");
         int mode = scanner.nextInt();
-
+/***********************************************************************************************/
+        // Both structures are created before the loop, within the main block,
+        // so that they exist throughout the main function.
+        // Only one will be used, depending on the mode. The other remains empty.
         StackStorage stackStorage = new StackStorage();
         QueueStorage queueStorage = new QueueStorage();
-
+/***********************************************************************************************/
         int choose;
         do {
             System.out.println("1-add, 2-peek, 3-display, 4-search, 5-remove, 6-exit");
             choose = scanner.nextInt();
+            // The switch statement selects which block to execute based on the value of choose.
+            // Each case ends with a break; otherwise, Java continues executing the next case.
             switch (choose) {
+/***********************************************************************************************/
+                // -----ADD-----
                 case 1:
                     System.out.println("Enter food name: ");
+                    // next() reads 1 word and skips the \n left behind by nextInt.
+                    // It works because the 5 foods consist of a single word.
                     String name = scanner.next();
                     System.out.println("Enter food weight: ");
                     int weightInGrams = scanner.nextInt();
                     System.out.println("Enter date: ");
                     String date = scanner.next();
+                    // parse converts the text into a LocalDate using the dd/MM/yyyy format.
+                    // Without the formatter, parse would only understand the ISO format (2026-10-20).
                     LocalDate bestBeforeDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                    // Creates the box with the entered data.
+                    // In the call, we pass only the variables without types.
+                    // The time it was stored (timeBoxPlaced) is populated automatically in the constructor.
                     FoodItem foodItem = new FoodItem(name, weightInGrams, bestBeforeDate);
-
+                    // case 1 specifies what to do (add); mode specifies where (stack or queue).
                     if (mode == 1) {      //STACK
                         stackStorage.push(foodItem);
                     } else {               //QUEUE
                         queueStorage.enqueue(foodItem);
                     }
-
-
                     break;
+/***********************************************************************************************/
+                // -----PEEK-----
                 case 2:
                     if (mode == 1) {      //STACK
+                        // peek returns the top item, or null if empty.
                         FoodItem foodPeek = stackStorage.peek();
+                        // Only prints if an item was received, to avoid displaying null on the screen.
                         if (foodPeek != null) {
                             System.out.println("Next food: " + foodPeek);
                         }
                     } else {               //QUEUE
+                        // In the queue, the next one to leave is the one at the front.
                         FoodItem foodPeek = queueStorage.peek();
                         if (foodPeek != null) {
                             System.out.println("Next food: " + foodPeek);
                         }
                     }
                     break;
+/***********************************************************************************************/
+                // -----DISPLAY-----
                 case 3:
+                    // display returns nothing (void) and it prints and handles the empty case.
                     if (mode == 1) {       //STACK
                         stackStorage.display();
                     } else {              //QUEUE
                         queueStorage.display();
                     }
                     break;
+/***********************************************************************************************/
+                // -----SEARCH-----
                 case 4:
+                    if(mode == 1){
+                        System.out.println("Type the food: ");
+                        scanner.nextLine(); // discards the \n left in the buffer by nextInt
+                        String foodSearch = scanner.nextLine();
+                        // search returns the found item, or null if not found.
+                        FoodItem foodSearchReturn =  stackStorage.search(foodSearch);
+                        if(foodSearchReturn != null){
+                            System.out.println("Food Searched: "+foodSearchReturn);
+                        }
+                    }
+                    else{
+                        // Same 3 reading lines as the block above (duplicates).
+                        System.out.println("Type the food: ");
+                        scanner.nextLine();
+                        String foodSearch = scanner.nextLine();
+                        FoodItem foodSearchReturn =  queueStorage.search(foodSearch);
+                        if(foodSearchReturn != null){
+                            System.out.println("Food Searched: "+foodSearchReturn);
+                        }
+                    }
                     break;
+/***********************************************************************************************/
+                // -----REMOVE-----
                 case 5:
                     if (mode == 1) {      //STACK
+                        // pop removes and returns the item from the top - the last one that was added.
                         FoodItem foodPop = stackStorage.pop();
                         if (foodPop != null) {
                             System.out.println("Removed food: " + foodPop);
                         }
                     } else {
+                        // dequeue removes and returns the item from the front - the first one that entered.
                         FoodItem foodDequeue = queueStorage.dequeue();
                         if (foodDequeue != null) {
                             System.out.println("Removed food: " + foodDequeue);
                         }
                     }
                     break;
+/***********************************************************************************************/
+                // -----EXIT-----
                 case 6:
+                    // Only displays the bye message. The while condition terminates the loop.
                     System.out.println("Tchau Chefe!");
                     break;
+                // Catches invalid options 0, 7, 9.... The loop continues and the menu repeat again.
+/***********************************************************************************************/
+                // -----ANOTHER NUMBER-----
                 default:
                     System.out.println("Invalid option, try again");
                     break;
             }
-
         }
+/***********************************************************************************************/
+        // Repeat until the chef does not choose 6.
         while (choose != 6);
-
     }
 }
-
-
+/***********************************************************************************************/
