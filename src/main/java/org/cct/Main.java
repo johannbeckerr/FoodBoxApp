@@ -1,6 +1,7 @@
 package org.cct;
 
 import java.time.format.DateTimeFormatter;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.time.LocalDate;
 
@@ -19,8 +20,13 @@ public class Main {
 /***********************************************************************************************/
         int choose;
         do {
-            System.out.println("1-add, 2-peek, 3-display, 4-search, 5-remove, 6-exit");
-            choose = scanner.nextInt();
+            try{
+                System.out.println("1-add, 2-peek, 3-display, 4-search, 5-remove, 6-exit");
+                choose = scanner.nextInt();
+            }catch (InputMismatchException e){
+                scanner.nextLine();
+                choose = -1;
+            }
             // The switch statement selects which block to execute based on the value of choose.
             // Each case ends with a break; otherwise, Java continues executing the next case.
             switch (choose) {
@@ -32,7 +38,16 @@ public class Main {
                     // It works because the 5 foods consist of a single word.
                     String name = scanner.next();
                     System.out.println("Enter food weight: ");
-                    int weightInGrams = scanner.nextInt();
+
+                    int weightInGrams;
+                    try{
+                        weightInGrams = scanner.nextInt();
+                    }catch (InputMismatchException e) {
+                        scanner.nextLine();
+                        System.out.println("Weight must be a valid number!");
+                        break;
+                    }
+
                     System.out.println("Enter date: ");
                     String date = scanner.next();
                     // parse converts the text into a LocalDate using the dd/MM/yyyy format.
@@ -124,17 +139,16 @@ public class Main {
                     // Only displays the bye message. The while condition terminates the loop.
                     System.out.println("Tchau Chefe!");
                     break;
-                // Catches invalid options 0, 7, 9.... The loop continues and the menu repeat again.
 /***********************************************************************************************/
                 // -----ANOTHER NUMBER-----
+                // Catches invalid options 0, 7, 9.... The loop continues and the menu repeats again.
                 default:
                     System.out.println("Invalid option, try again");
                     break;
             }
         }
 /***********************************************************************************************/
-        // Repeat until the chef does not choose 6.
+        // Repeat until the chef chooses 6.
         while (choose != 6);
     }
 }
-/***********************************************************************************************/
