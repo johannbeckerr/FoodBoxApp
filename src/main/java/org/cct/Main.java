@@ -1,6 +1,7 @@
 package org.cct;
 
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.time.LocalDate;
@@ -53,7 +54,6 @@ public class Main {
                     // It works because the 5 foods consist of a single word.
                     String name = scanner.next();
                     System.out.println("Enter food weight: ");
-
                     int weightInGrams;
                     try{
                         weightInGrams = scanner.nextInt();
@@ -62,12 +62,30 @@ public class Main {
                         System.out.println("Weight must be a valid number!");
                         break;
                     }
-
-                    System.out.println("Enter date: ");
-                    String date = scanner.next();
+                    System.out.println("Enter date (dd/MM/yyyy): ");
+                    // bestBeforeDate starts as null "no date yet".
+                    // The actual date is only assigned inside the try block, which might fail.
+                    // Since the compiler cannot be certain that this line will execute,
+                    // it requires the local variable to have an initial value before it is used.
+                    LocalDate bestBeforeDate = null;
+                    // check controls the loop. false = we havenot received a valid date yet.
+                    // It only becomes true once the parse succeeds without errors.
+                    boolean check = false;
+                    do{
+                        try{
+                            String date = scanner.next();
                     // parse converts the text into a LocalDate using the dd/MM/yyyy format.
                     // Without the formatter, parse would only understand the ISO format (2026-10-20).
-                    LocalDate bestBeforeDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                            bestBeforeDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                            check = true;
+                        }catch (DateTimeParseException e){
+                    // Discards the remainder of the typed line like "20 10 2026" next() only read 20).
+                    // Without this, the next attempt would read the leftovers "10" "2026" instead of waiting for the user.
+                            scanner.nextLine();
+                            System.out.println("Date must be a valid date! Must be (dd/MM/yyyy)");
+                        }
+                    // !check to repeat the date entry question if it is incorrect.
+                    }while(!check);
                     // Creates the box with the entered data.
                     // In the call, we pass only the variables without types.
                     // The time it was stored (timeBoxPlaced) is populated automatically in the constructor.
