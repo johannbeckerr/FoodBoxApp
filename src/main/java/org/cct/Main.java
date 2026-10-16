@@ -52,6 +52,12 @@ public class Main {
 /***********************************************************************************************/
                 //NAME FOOD//
                 case 1:
+                    // Checks if the storage is full before asking for food.
+                    // break exits the switch and goes back to the menu.
+                    if ((mode == 1 && stackStorage.isFull()) || (mode == 2 && queueStorage.isFull())) {
+                        System.out.println("Storage is Full, Chef! Remove a box before add.");
+                        break;
+                    }
                     // Repeat until chooses a number from 1 to 5.
                     int selectionChef = 0;
                     do{
