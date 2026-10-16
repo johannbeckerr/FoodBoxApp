@@ -77,7 +77,16 @@ public class Main {
                     // parse converts the text into a LocalDate using the dd/MM/yyyy format.
                     // Without the formatter, parse would only understand the ISO format (2026-10-20).
                             bestBeforeDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-                            check = true;
+                            LocalDate todayDate = LocalDate.now();
+                    //Date must be between today and 14 days from today!
+                            LocalDate days14Rules = todayDate.plusDays(14);
+                            if(bestBeforeDate.isBefore(todayDate) || bestBeforeDate.isAfter(days14Rules)){
+                                System.out.println("You entered a date that is either in the past or more than 14 days from today.");
+                            }
+                    //Just happens if date is ok
+                            else{
+                                check = true;
+                            }
                         }catch (DateTimeParseException e){
                     // Discards the remainder of the typed line like "20 10 2026" next() only read 20).
                     // Without this, the next attempt would read the leftovers "10" "2026" instead of waiting for the user.
