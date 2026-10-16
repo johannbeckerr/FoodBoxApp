@@ -10,6 +10,8 @@ public class Main {
     public static void main(String[] args) {
 /***********************************************************************************************/
         Scanner scanner = new Scanner(System.in);
+        String[] foods = {"Burger","Pizza","Fries","Sandwich","Hotdog"};
+/***********************************************************************************************/
         int mode = 0;
         // Repeat until the mode equals 1 or 2.
         do{
@@ -26,7 +28,6 @@ public class Main {
             }
         }
         while(mode != 1 && mode != 2);
-
 /***********************************************************************************************/
         // Both structures are created before the loop, within the main block,
         // so that they exist throughout the main function.
@@ -49,10 +50,22 @@ public class Main {
 /***********************************************************************************************/
                 // -----ADD-----
                 case 1:
-                    System.out.println("Enter food name: ");
-                    // next() reads 1 word and skips the \n left behind by nextInt.
-                    // It works because the 5 foods consist of a single word.
-                    String name = scanner.next();
+                    // Repeat until chooses a number from 1 to 5.
+                    int selectionChef = 0;
+                    do {
+                        try {
+                            System.out.println("MENU | 1-Burger | 2-Pizza | 3-Fries | 4-Sandwich | 5-Hotdog");
+                            selectionChef = scanner.nextInt();
+                            if (selectionChef < 1 || selectionChef > 5) {
+                                System.out.println("Only 1 to 5, please!");
+                            }
+                        } catch (InputMismatchException e) {
+                            System.out.println("Only 1 to 5, please!");
+                            scanner.nextLine();
+                        }
+                    } while (selectionChef < 1 || selectionChef > 5);
+                    // Arrays start at 0, so option 1 (Burger) is index 0: index = selectionChef - 1.
+                    String name = foods[selectionChef - 1];
                     System.out.println("Enter food weight: ");
                     int weightInGrams;
                     try{
