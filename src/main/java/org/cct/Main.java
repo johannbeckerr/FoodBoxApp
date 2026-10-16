@@ -36,7 +36,7 @@ public class Main {
         QueueStorage queueStorage = new QueueStorage();
 /***********************************************************************************************/
         int choose;
-        do {
+        do{
             try{
                 System.out.println("1-add, 2-peek, 3-display, 4-search, 5-remove, 6-exit");
                 choose = scanner.nextInt();
@@ -48,33 +48,44 @@ public class Main {
             // Each case ends with a break; otherwise, Java continues executing the next case.
             switch (choose) {
 /***********************************************************************************************/
-                // -----ADD-----
+//                                          ADD
+/***********************************************************************************************/
+                //NAME FOOD//
                 case 1:
                     // Repeat until chooses a number from 1 to 5.
                     int selectionChef = 0;
-                    do {
-                        try {
+                    do{
+                        try{
                             System.out.println("MENU | 1-Burger | 2-Pizza | 3-Fries | 4-Sandwich | 5-Hotdog");
                             selectionChef = scanner.nextInt();
                             if (selectionChef < 1 || selectionChef > 5) {
                                 System.out.println("Only 1 to 5, please!");
                             }
-                        } catch (InputMismatchException e) {
+                        }catch (InputMismatchException e) {
                             System.out.println("Only 1 to 5, please!");
                             scanner.nextLine();
                         }
                     } while (selectionChef < 1 || selectionChef > 5);
                     // Arrays start at 0, so option 1 (Burger) is index 0: index = selectionChef - 1.
                     String name = foods[selectionChef - 1];
-                    System.out.println("Enter food weight: ");
-                    int weightInGrams;
-                    try{
-                        weightInGrams = scanner.nextInt();
-                    }catch (InputMismatchException e) {
-                        scanner.nextLine();
-                        System.out.println("Weight must be a valid number!");
-                        break;
-                    }
+/***********************************************************************************************/
+                    //WEIGHT FOOD//
+                    // Repeat until the chef enters a number greater than 0.
+                    int weightInGrams = 0;
+                    do{
+                        try{
+                            System.out.println("Enter food weight in Grams: ");
+                            weightInGrams = scanner.nextInt();
+                            if (weightInGrams <= 0) {
+                                System.out.println("Weight must be greater than 0!");
+                            }
+                        }catch (InputMismatchException e) {
+                            System.out.println("Weight must be a valid number!");
+                            scanner.nextLine();
+                        }
+                    } while (weightInGrams <= 0);
+/***********************************************************************************************/
+                    //BEST BEFORE DATE FOOD//
                     System.out.println("Enter date (dd/MM/yyyy): ");
                     // bestBeforeDate starts as null "no date yet".
                     // The actual date is only assigned inside the try block, which might fail.
@@ -108,6 +119,7 @@ public class Main {
                         }
                     // !check to repeat the date entry question if it is incorrect.
                     }while(!check);
+/***********************************************************************************************/
                     // Creates the box with the entered data.
                     // In the call, we pass only the variables without types.
                     // The time it was stored (timeBoxPlaced) is populated automatically in the constructor.
@@ -115,12 +127,13 @@ public class Main {
                     // case 1 specifies what to do (add); mode specifies where (stack or queue).
                     if (mode == 1) {      //STACK
                         stackStorage.push(foodItem);
-                    } else {               //QUEUE
+                    } else {              //QUEUE
                         queueStorage.enqueue(foodItem);
                     }
                     break;
 /***********************************************************************************************/
-                // -----PEEK-----
+//                                          PEEK
+/***********************************************************************************************/
                 case 2:
                     if (mode == 1) {      //STACK
                         // peek returns the top item, or null if empty.
@@ -138,7 +151,8 @@ public class Main {
                     }
                     break;
 /***********************************************************************************************/
-                // -----DISPLAY-----
+//                                          DISPLAY
+/***********************************************************************************************/
                 case 3:
                     // display returns nothing (void) and it prints and handles the empty case.
                     if (mode == 1) {       //STACK
@@ -148,9 +162,10 @@ public class Main {
                     }
                     break;
 /***********************************************************************************************/
-                // -----SEARCH-----
+//                                          SEARCH
+/***********************************************************************************************/
                 case 4:
-                    if(mode == 1){
+                    if(mode == 1){          //STACK
                         System.out.println("Type the food: ");
                         scanner.nextLine(); // discards the \n left in the buffer by nextInt
                         String foodSearch = scanner.nextLine();
@@ -160,7 +175,7 @@ public class Main {
                             System.out.println("Food Searched: "+foodSearchReturn);
                         }
                     }
-                    else{
+                    else{                   //QUEUE
                         // Same 3 reading lines as the block above (duplicates).
                         System.out.println("Type the food: ");
                         scanner.nextLine();
@@ -172,7 +187,8 @@ public class Main {
                     }
                     break;
 /***********************************************************************************************/
-                // -----REMOVE-----
+//                                          REMOVE
+/***********************************************************************************************/
                 case 5:
                     if (mode == 1) {      //STACK
                         // pop removes and returns the item from the top - the last one that was added.
@@ -180,7 +196,7 @@ public class Main {
                         if (foodPop != null) {
                             System.out.println("Removed food: " + foodPop);
                         }
-                    } else {
+                    } else {              //QUEUE
                         // dequeue removes and returns the item from the front - the first one that entered.
                         FoodItem foodDequeue = queueStorage.dequeue();
                         if (foodDequeue != null) {
@@ -189,7 +205,8 @@ public class Main {
                     }
                     break;
 /***********************************************************************************************/
-                // -----EXIT-----
+//                                          EXIT
+/***********************************************************************************************/
                 case 6:
                     // Only displays the bye message. The while condition terminates the loop.
                     System.out.println("Tchau Chefe!");
