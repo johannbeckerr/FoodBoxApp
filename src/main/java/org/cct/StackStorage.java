@@ -71,7 +71,7 @@ public class StackStorage extends FoodStorage {
             return;
         }
         for (int i = top; i > -1; i--) {
-            System.out.println("Box - " + foodItems[i]);
+            System.out.println("Box["+i+"]-> " + foodItems[i]);
         }
     }
 

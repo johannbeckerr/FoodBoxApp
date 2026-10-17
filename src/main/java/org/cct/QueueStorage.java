@@ -72,7 +72,7 @@ public class QueueStorage extends FoodStorage {
         }
         for (int i = 0; i < count; i++) {
             int index = (front + i) % capacity;
-            System.out.println("Box - " + foodItems[index]);
+            System.out.println("Box["+index+"]-> " + foodItems[index]);
         }
     }
 /***********************************************************************************************/
