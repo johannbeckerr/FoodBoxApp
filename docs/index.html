@@ -64,6 +64,32 @@
       color: var(--green);
       white-space: pre-wrap;
     }
+    .prompt {
+      display: flex; align-items: center; gap: 8px;
+      border-top: 1px solid #2a3140;
+      padding: 10px 14px;
+      background: #0b0d11;
+    }
+    .prompt span {
+      color: var(--accent);
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-weight: bold;
+    }
+    #input {
+      flex: 1; min-width: 0;
+      background: transparent;
+      border: none; outline: none;
+      color: var(--text);
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 16px;
+    }
+    #input:disabled { opacity: 0.4; }
+    #send {
+      background: var(--accent); color: #11141a;
+      border: none; border-radius: 6px;
+      padding: 6px 14px; font-weight: 600; cursor: pointer;
+    }
+    #send:disabled { opacity: 0.4; cursor: default; }
     #status { color: var(--muted); font-size: 0.85rem; margin-top: 10px; }
     footer { margin-top: 24px; color: var(--muted); font-size: 0.85rem; }
     a { color: var(--accent); }
@@ -88,6 +114,11 @@
         <span class="label">java -jar foodbox.jar</span>
       </div>
       <pre id="console"></pre>
+      <form class="prompt" id="prompt" autocomplete="off">
+        <span>&gt;</span>
+        <input id="input" type="text" placeholder="Type here and press Enter" disabled>
+        <button id="send" type="submit" disabled>Enter</button>
+      </form>
     </div>
     <p id="status">⏳ Loading the Java runtime (first load can take a few seconds)…</p>
 
@@ -99,12 +130,53 @@
   </main>
 
   <script>
+    const consoleEl = document.getElementById("console");
+    const status = document.getElementById("status");
+    const form = document.getElementById("prompt");
+    const input = document.getElementById("input");
+    const send = document.getElementById("send");
+
+    // Lines typed by the user wait here until Java asks for them.
+    const typedLines = [];
+    let waitingJava = null;
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const line = input.value;
+      input.value = "";
+      if (waitingJava) {
+        const resolve = waitingJava;
+        waitingJava = null;
+        resolve(line);
+      } else {
+        typedLines.push(line);
+      }
+      input.focus();
+    });
+
+    // Native method of org.cct.BrowserMain: Java pauses here until the user presses Enter.
+    async function Java_org_cct_BrowserMain_readLine(lib) {
+      if (typedLines.length > 0) {
+        return typedLines.shift();
+      }
+      return new Promise((resolve) => { waitingJava = resolve; });
+    }
+
+    // Keep the console scrolled to the newest output.
+    new MutationObserver(() => {
+      consoleEl.scrollTop = consoleEl.scrollHeight;
+    }).observe(consoleEl, { childList: true, subtree: true, characterData: true });
+
     (async () => {
-      const status = document.getElementById("status");
       try {
-        await cheerpjInit();
-        status.textContent = "✅ Running. Click inside the console and type your choice.";
+        await cheerpjInit({ natives: { Java_org_cct_BrowserMain_readLine } });
+        input.disabled = false;
+        send.disabled = false;
+        input.focus();
+        status.textContent = "✅ Running. Type in the box below the console and press Enter.";
         const exitCode = await cheerpjRunJar("/app/FoodBoxApp/foodbox.jar");
+        input.disabled = true;
+        send.disabled = true;
         status.textContent = "Program finished (exit code " + exitCode + "). Refresh the page to run again.";
       } catch (e) {
         status.textContent = "❌ Could not start the app: " + e;
