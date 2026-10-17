@@ -29,11 +29,15 @@ public class Main {
         }
         while(mode != 1 && mode != 2);
 /***********************************************************************************************/
-        // Both structures are created before the loop, within the main block,
-        // so that they exist throughout the main function.
-        // Only one will be used, depending on the mode. The other remains empty.
-        StackStorage stackStorage = new StackStorage();
-        QueueStorage queueStorage = new QueueStorage();
+        // Polymorphism: the variable type is the abstract class FoodStorage,
+        // but the object created is a StackStorage or a QueueStorage, depending on the mode.
+        // Here the Main class calls storage.add(), storage.remove(), etc... without knowing which one it actually is.
+        FoodStorage storage;
+        if (mode == 1) {
+            storage = new StackStorage();
+        } else {
+            storage = new QueueStorage();
+        }
 /***********************************************************************************************/
         int choose;
         do{
@@ -54,7 +58,7 @@ public class Main {
                 case 1:
                     // Checks if the storage is full before asking for food.
                     // break exits the switch and goes back to the menu.
-                    if ((mode == 1 && stackStorage.isFull()) || (mode == 2 && queueStorage.isFull())) {
+                    if (storage.isFull()) {
                         System.out.println("Storage is Full, Chef! Remove a box before add.");
                         break;
                     }
@@ -99,7 +103,7 @@ public class Main {
                     // it requires the local variable to have an initial value before it is used.
                     LocalDate bestBeforeDate = null;
                     // check controls the loop. false = we havenot received a valid date yet.
-                    // It only becomes true once the parse succeeds without errors.
+                    // It only becomes true when the format is valid and the date is between today and 14 days from today.
                     boolean check = false;
                     do{
                         try{
@@ -130,30 +134,18 @@ public class Main {
                     // In the call, we pass only the variables without types.
                     // The time it was stored (timeBoxPlaced) is populated automatically in the constructor.
                     FoodItem foodItem = new FoodItem(name, weightInGrams, bestBeforeDate);
-                    // case 1 specifies what to do (add); mode specifies where (stack or queue).
-                    if (mode == 1) {      //STACK
-                        stackStorage.push(foodItem);
-                    } else {              //QUEUE
-                        queueStorage.enqueue(foodItem);
-                    }
+                    // Java calls the add() of the real object: push in the stack, enqueue in the queue.
+                    storage.add(foodItem);
                     break;
 /***********************************************************************************************/
 //                                          PEEK
 /***********************************************************************************************/
                 case 2:
-                    if (mode == 1) {      //STACK
-                        // peek returns the top item, or null if empty.
-                        FoodItem foodPeek = stackStorage.peek();
-                        // Only prints if an item was received, to avoid displaying null on the screen.
-                        if (foodPeek != null) {
-                            System.out.println("Next food: " + foodPeek);
-                        }
-                    } else {               //QUEUE
-                        // In the queue, the next one to leave is the one at the front.
-                        FoodItem foodPeek = queueStorage.peek();
-                        if (foodPeek != null) {
-                            System.out.println("Next food: " + foodPeek);
-                        }
+                    // peek returns the next item to leave (top of the stack or front of the queue), or null if empty.
+                    FoodItem foodPeek = storage.peek();
+                    // Only prints if an item was received, to avoid displaying null on the screen.
+                    if (foodPeek != null) {
+                        System.out.println("Next food: " + foodPeek);
                     }
                     break;
 /***********************************************************************************************/
@@ -161,53 +153,30 @@ public class Main {
 /***********************************************************************************************/
                 case 3:
                     // display returns nothing (void) and it prints and handles the empty case.
-                    if (mode == 1) {       //STACK
-                        stackStorage.display();
-                    } else {              //QUEUE
-                        queueStorage.display();
-                    }
+                    storage.display();
                     break;
 /***********************************************************************************************/
 //                                          SEARCH
 /***********************************************************************************************/
                 case 4:
-                    if(mode == 1){          //STACK
-                        System.out.println("Type the food: ");
-                        scanner.nextLine(); // discards the \n left in the buffer by nextInt
-                        String foodSearch = scanner.nextLine();
-                        // search returns the found item, or null if not found.
-                        FoodItem foodSearchReturn =  stackStorage.search(foodSearch);
-                        if(foodSearchReturn != null){
-                            System.out.println("Food Searched: "+foodSearchReturn);
-                        }
-                    }
-                    else{                   //QUEUE
-                        // Same 3 reading lines as the block above (duplicates).
-                        System.out.println("Type the food: ");
-                        scanner.nextLine();
-                        String foodSearch = scanner.nextLine();
-                        FoodItem foodSearchReturn =  queueStorage.search(foodSearch);
-                        if(foodSearchReturn != null){
-                            System.out.println("Food Searched: "+foodSearchReturn);
-                        }
+                    System.out.println("Type the food: ");
+                    scanner.nextLine(); // discards the \n left in the buffer by nextInt
+                    String foodSearch = scanner.nextLine();
+                    // search returns the found item, or null if not found.
+                    FoodItem foodSearchReturn = storage.search(foodSearch);
+                    if (foodSearchReturn != null) {
+                        System.out.println("Food Searched: " + foodSearchReturn);
                     }
                     break;
 /***********************************************************************************************/
 //                                          REMOVE
 /***********************************************************************************************/
                 case 5:
-                    if (mode == 1) {      //STACK
-                        // pop removes and returns the item from the top - the last one that was added.
-                        FoodItem foodPop = stackStorage.pop();
-                        if (foodPop != null) {
-                            System.out.println("Removed food: " + foodPop);
-                        }
-                    } else {              //QUEUE
-                        // dequeue removes and returns the item from the front - the first one that entered.
-                        FoodItem foodDequeue = queueStorage.dequeue();
-                        if (foodDequeue != null) {
-                            System.out.println("Removed food: " + foodDequeue);
-                        }
+                    // remove calls pop in the stack (LIFO: the last added leaves)
+                    // or dequeue in the queue (FIFO: the first added leaves).
+                    FoodItem foodRemoved = storage.remove();
+                    if (foodRemoved != null) {
+                        System.out.println("Removed food: " + foodRemoved);
                     }
                     break;
 /***********************************************************************************************/
